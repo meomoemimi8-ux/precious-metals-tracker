@@ -4,42 +4,34 @@ import { useActionState } from "react";
 import { createAssetSource, type ActionState } from "@/lib/portfolio/actions";
 
 const initialState: ActionState = undefined;
+const inputClass =
+  "rounded-xl border border-card-border bg-background px-3 py-2 text-sm outline-none focus:border-accent";
 
 export function AssetSourceForm() {
   const [state, action, pending] = useActionState(createAssetSource, initialState);
 
   return (
-    <form action={action} className="flex flex-wrap items-end gap-2 rounded border border-neutral-200 p-3">
+    <form action={action} className="flex flex-wrap items-end gap-2">
       <div className="flex flex-col gap-1">
-        <label htmlFor="name" className="text-xs text-neutral-500">
+        <label htmlFor="name" className="text-xs text-foreground/50">
           Tên tài sản
         </label>
-        <input
-          id="name"
-          name="name"
-          required
-          placeholder="Vàng Doji"
-          className="rounded border border-neutral-300 px-2 py-1 text-sm"
-        />
+        <input id="name" name="name" required placeholder="Vàng Doji" className={inputClass} />
       </div>
       <div className="flex flex-col gap-1">
-        <label htmlFor="metal_type" className="text-xs text-neutral-500">
+        <label htmlFor="metal_type" className="text-xs text-foreground/50">
           Kim loại
         </label>
-        <select id="metal_type" name="metal_type" className="rounded border border-neutral-300 px-2 py-1 text-sm">
-          <option value="gold">Vàng</option>
-          <option value="silver">Bạc</option>
+        <select id="metal_type" name="metal_type" className={inputClass}>
+          <option value="gold">🥇 Vàng</option>
+          <option value="silver">🥈 Bạc</option>
         </select>
       </div>
       <div className="flex flex-col gap-1">
-        <label htmlFor="price_source" className="text-xs text-neutral-500">
+        <label htmlFor="price_source" className="text-xs text-foreground/50">
           Nguồn giá
         </label>
-        <select
-          id="price_source"
-          name="price_source"
-          className="rounded border border-neutral-300 px-2 py-1 text-sm"
-        >
+        <select id="price_source" name="price_source" className={inputClass}>
           <option value="manual">Nhập tay</option>
           <option value="auto:doji">Tự động (DOJI)</option>
           <option value="auto:phuquy">Tự động (Phú Quý Silver)</option>
@@ -48,7 +40,7 @@ export function AssetSourceForm() {
       <button
         type="submit"
         disabled={pending}
-        className="rounded bg-neutral-900 px-3 py-1.5 text-sm font-medium text-white disabled:opacity-50"
+        className="rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-strong disabled:opacity-50"
       >
         {pending ? "Đang lưu..." : "Thêm tài sản"}
       </button>

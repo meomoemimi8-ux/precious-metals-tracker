@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Theo dõi mua/bán vàng, bạc và lãi/lỗ theo thời gian",
     start_url: "/",
     display: "standalone",
-    background_color: "#fcfcfb",
-    theme_color: "#fcfcfb",
+    background_color: "#fdf8f0",
+    theme_color: "#d4922a",
     icons: [
       {
         src: "/favicon.ico",

@@ -11,7 +11,28 @@ import { TransactionForm } from "@/components/portfolio/TransactionForm";
 import { TotalsSummary } from "@/components/portfolio/TotalsSummary";
 import { HoldingsList } from "@/components/portfolio/HoldingsList";
 import { GrowthChart } from "@/components/portfolio/GrowthChart";
+import { SetPasswordForm } from "@/components/portfolio/SetPasswordForm";
 import { logout } from "./actions";
+
+function Card({
+  title,
+  emoji,
+  children,
+}: {
+  title: string;
+  emoji: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="rounded-3xl border border-card-border bg-card p-4 shadow-sm sm:p-5">
+      <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground/70">
+        <span>{emoji}</span>
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
+}
 
 export default async function Home() {
   const supabase = await createClient();
@@ -29,11 +50,13 @@ export default async function Home() {
   const totals = totalPortfolio(summary);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 p-4 sm:p-6">
+    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-4 p-4 sm:p-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Danh mục đầu tư</h1>
+        <h1 className="flex items-center gap-2 text-xl font-bold text-foreground">
+          <span>🪙</span> Danh mục đầu tư
+        </h1>
         <form action={logout}>
-          <button type="submit" className="text-sm text-neutral-600 underline">
+          <button type="submit" className="text-sm text-foreground/50 underline">
             Đăng xuất
           </button>
         </form>
@@ -41,25 +64,25 @@ export default async function Home() {
 
       <TotalsSummary totals={totals} />
 
-      <section className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold text-neutral-600">Tăng trưởng danh mục</h2>
+      <Card title="Tăng trưởng danh mục" emoji="📈">
         <GrowthChart data={valueHistory} />
-      </section>
+      </Card>
 
-      <section className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold text-neutral-600">Tài sản đang theo dõi</h2>
+      <Card title="Tài sản đang theo dõi" emoji="✨">
         <HoldingsList summary={summary} />
-      </section>
+      </Card>
 
-      <section className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold text-neutral-600">Thêm tài sản mới</h2>
+      <Card title="Thêm tài sản mới" emoji="➕">
         <AssetSourceForm />
-      </section>
+      </Card>
 
-      <section className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold text-neutral-600">Ghi nhận giao dịch</h2>
+      <Card title="Ghi nhận giao dịch" emoji="📝">
         <TransactionForm assetSources={assetSources} />
-      </section>
+      </Card>
+
+      <Card title="Đăng nhập nhanh hơn" emoji="🔑">
+        <SetPasswordForm />
+      </Card>
     </main>
   );
 }

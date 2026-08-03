@@ -30,9 +30,9 @@ function ChartTooltip({
 }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded border border-neutral-200 bg-white px-2 py-1 text-xs shadow-sm">
-      <p className="text-neutral-500">{label}</p>
-      <p className="font-semibold">{formatVnd(payload[0].value)}</p>
+    <div className="rounded-xl border border-card-border bg-card px-3 py-1.5 text-xs shadow-sm">
+      <p className="text-foreground/50">{label}</p>
+      <p className="font-semibold text-foreground">{formatVnd(payload[0].value)}</p>
     </div>
   );
 }
@@ -40,14 +40,17 @@ function ChartTooltip({
 export function GrowthChart({ data }: { data: PortfolioValuePoint[] }) {
   if (data.length < 2) {
     return (
-      <p className="text-sm text-neutral-500">
-        Cần ít nhất 2 lần ghi nhận giá để vẽ biểu đồ tăng trưởng.
+      <p className="text-sm text-foreground/50">
+        Cần ít nhất 2 lần ghi nhận giá để vẽ biểu đồ tăng trưởng 📈
       </p>
     );
   }
 
   return (
-    <div className="viz-root h-64 w-full" style={{ background: "var(--viz-surface)" }}>
+    <div
+      className="viz-root h-64 w-full rounded-2xl"
+      style={{ background: "var(--viz-surface)" }}
+    >
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data} margin={{ top: 8, right: 16, bottom: 0, left: 0 }}>
           <CartesianGrid stroke="var(--viz-gridline)" strokeDasharray="0" vertical={false} />

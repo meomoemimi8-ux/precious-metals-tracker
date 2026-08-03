@@ -9,6 +9,8 @@ import {
 import type { AssetSource } from "@/lib/portfolio/types";
 
 const initialState: ActionState = undefined;
+const inputClass =
+  "rounded-xl border border-card-border bg-background px-3 py-2 text-sm outline-none focus:border-accent";
 
 export function TransactionForm({ assetSources }: { assetSources: AssetSource[] }) {
   const [type, setType] = useState<"buy" | "sell">("buy");
@@ -17,41 +19,43 @@ export function TransactionForm({ assetSources }: { assetSources: AssetSource[] 
 
   if (assetSources.length === 0) {
     return (
-      <p className="text-sm text-neutral-500">Thêm một tài sản trước khi nhập giao dịch.</p>
+      <p className="text-sm text-foreground/50">
+        Thêm một tài sản ở trên trước khi nhập giao dịch nhé 🙂
+      </p>
     );
   }
 
   return (
-    <form action={action} className="flex flex-wrap items-end gap-2 rounded border border-neutral-200 p-3">
+    <form action={action} className="flex flex-wrap items-end gap-2">
       <div className="flex flex-col gap-1">
-        <span className="text-xs text-neutral-500">Loại giao dịch</span>
-        <div className="flex overflow-hidden rounded border border-neutral-300 text-sm">
+        <span className="text-xs text-foreground/50">Loại giao dịch</span>
+        <div className="flex overflow-hidden rounded-xl border border-card-border text-sm">
           <button
             type="button"
             onClick={() => setType("buy")}
-            className={`px-3 py-1 ${type === "buy" ? "bg-neutral-900 text-white" : "bg-white"}`}
+            className={`px-3 py-2 transition ${
+              type === "buy" ? "bg-accent text-white" : "bg-background text-foreground/70"
+            }`}
           >
-            Mua
+            📥 Mua
           </button>
           <button
             type="button"
             onClick={() => setType("sell")}
-            className={`px-3 py-1 ${type === "sell" ? "bg-neutral-900 text-white" : "bg-white"}`}
+            className={`px-3 py-2 transition ${
+              type === "sell" ? "bg-accent text-white" : "bg-background text-foreground/70"
+            }`}
           >
-            Bán
+            📤 Bán
           </button>
         </div>
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="asset_source_id" className="text-xs text-neutral-500">
+        <label htmlFor="asset_source_id" className="text-xs text-foreground/50">
           Tài sản
         </label>
-        <select
-          id="asset_source_id"
-          name="asset_source_id"
-          className="rounded border border-neutral-300 px-2 py-1 text-sm"
-        >
+        <select id="asset_source_id" name="asset_source_id" className={inputClass}>
           {assetSources.map((s) => (
             <option key={s.id} value={s.id}>
               {s.name}
@@ -61,20 +65,14 @@ export function TransactionForm({ assetSources }: { assetSources: AssetSource[] 
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="date" className="text-xs text-neutral-500">
+        <label htmlFor="date" className="text-xs text-foreground/50">
           Ngày
         </label>
-        <input
-          id="date"
-          name="date"
-          type="date"
-          required
-          className="rounded border border-neutral-300 px-2 py-1 text-sm"
-        />
+        <input id="date" name="date" type="date" required className={inputClass} />
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="quantity_input" className="text-xs text-neutral-500">
+        <label htmlFor="quantity_input" className="text-xs text-foreground/50">
           Số lượng
         </label>
         <input
@@ -84,19 +82,15 @@ export function TransactionForm({ assetSources }: { assetSources: AssetSource[] 
           step="any"
           min="0"
           required
-          className="w-24 rounded border border-neutral-300 px-2 py-1 text-sm"
+          className={`w-24 ${inputClass}`}
         />
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="quantity_unit" className="text-xs text-neutral-500">
+        <label htmlFor="quantity_unit" className="text-xs text-foreground/50">
           Đơn vị
         </label>
-        <select
-          id="quantity_unit"
-          name="quantity_unit"
-          className="rounded border border-neutral-300 px-2 py-1 text-sm"
-        >
+        <select id="quantity_unit" name="quantity_unit" className={inputClass}>
           <option value="luong">lượng</option>
           <option value="chi">chỉ</option>
           <option value="kg">kg</option>
@@ -104,7 +98,7 @@ export function TransactionForm({ assetSources }: { assetSources: AssetSource[] 
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="price_per_luong" className="text-xs text-neutral-500">
+        <label htmlFor="price_per_luong" className="text-xs text-foreground/50">
           Giá / lượng
         </label>
         <input
@@ -114,21 +108,21 @@ export function TransactionForm({ assetSources }: { assetSources: AssetSource[] 
           step="any"
           min="0"
           required
-          className="w-32 rounded border border-neutral-300 px-2 py-1 text-sm"
+          className={`w-32 ${inputClass}`}
         />
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="note" className="text-xs text-neutral-500">
+        <label htmlFor="note" className="text-xs text-foreground/50">
           Ghi chú
         </label>
-        <input id="note" name="note" className="rounded border border-neutral-300 px-2 py-1 text-sm" />
+        <input id="note" name="note" className={inputClass} />
       </div>
 
       <button
         type="submit"
         disabled={pending}
-        className="rounded bg-neutral-900 px-3 py-1.5 text-sm font-medium text-white disabled:opacity-50"
+        className="rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-strong disabled:opacity-50"
       >
         {pending ? "Đang lưu..." : type === "buy" ? "Ghi nhận mua" : "Ghi nhận bán"}
       </button>

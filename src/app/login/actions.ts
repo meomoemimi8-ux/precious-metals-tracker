@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
 export type LoginState = { error?: string; sent?: boolean } | undefined;
@@ -27,4 +28,28 @@ export async function sendMagicLink(
   }
 
   return { sent: true };
+}
+
+export async function signInWithPassword(
+  _state: LoginState,
+  formData: FormData,
+): Promise<LoginState> {
+  const email = formData.get("email");
+  const password = formData.get("password");
+
+  if (typeof email !== "string" || !email.includes("@")) {
+    return { error: "Nhập một email hợp lệ." };
+  }
+  if (typeof password !== "string" || password.length === 0) {
+    return { error: "Nhập mật khẩu." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    return { error: "Email hoặc mật khẩu không đúng." };
+  }
+
+  redirect("/");
 }

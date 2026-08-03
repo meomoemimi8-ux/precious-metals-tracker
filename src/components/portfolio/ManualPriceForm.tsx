@@ -13,7 +13,7 @@ export function ManualPriceForm({ summary }: { summary: AssetSourceSummary }) {
     <form action={action} className="flex flex-wrap items-end gap-2 text-sm">
       <input type="hidden" name="asset_source_id" value={summary.asset_source_id} />
       <div className="flex flex-col gap-1">
-        <label htmlFor={`price-${summary.asset_source_id}`} className="text-xs text-neutral-500">
+        <label htmlFor={`price-${summary.asset_source_id}`} className="text-xs text-foreground/50">
           Giá mới / lượng
         </label>
         <input
@@ -23,13 +23,13 @@ export function ManualPriceForm({ summary }: { summary: AssetSourceSummary }) {
           step="any"
           min="0"
           required
-          className="w-32 rounded border border-neutral-300 px-2 py-1"
+          className="w-32 rounded-xl border border-card-border bg-background px-3 py-2 outline-none focus:border-accent"
         />
       </div>
       <button
         type="submit"
         disabled={pending}
-        className="rounded border border-neutral-400 px-3 py-1.5 font-medium disabled:opacity-50"
+        className="rounded-xl bg-accent px-3 py-2 font-semibold text-white transition hover:bg-accent-strong disabled:opacity-50"
       >
         {pending ? "Đang lưu..." : "Cập nhật giá"}
       </button>
