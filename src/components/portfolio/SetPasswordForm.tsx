@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { setPassword, type SetPasswordState } from "@/app/actions";
+import { INPUT_CLASS, PILL_BUTTON_CLASS } from "@/lib/ui";
 
 const initialState: SetPasswordState = undefined;
 
@@ -10,7 +11,7 @@ export function SetPasswordForm() {
 
   if (state?.success) {
     return (
-      <p className="text-sm text-foreground/60">
+      <p className="text-sm text-foreground-soft">
         Đã đặt mật khẩu ✅ — lần sau đăng nhập bằng email + mật khẩu này, không cần chờ email nữa.
       </p>
     );
@@ -24,13 +25,9 @@ export function SetPasswordForm() {
         required
         minLength={6}
         placeholder="Mật khẩu mới (≥ 6 ký tự)"
-        className="rounded-xl border border-card-border bg-background px-3 py-2 text-sm outline-none focus:border-accent"
+        className={INPUT_CLASS}
       />
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-strong disabled:opacity-50"
-      >
+      <button type="submit" disabled={pending} className={PILL_BUTTON_CLASS}>
         {pending ? "Đang lưu..." : "Đặt mật khẩu"}
       </button>
       {state?.error && <p className="w-full text-sm text-red-600">{state.error}</p>}

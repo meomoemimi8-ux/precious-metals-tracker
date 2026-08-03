@@ -1,13 +1,28 @@
 @import "tailwindcss";
+/* Baloo 2 + Quicksand are loaded via next/font/google in layout.tsx, not here. */
 
+/* ===== Design tokens — theo phong cách "meomoe multiverse" (glass/candy),
+   đổi tông sang vàng/kem cho hợp chủ đề đầu tư vàng bạc ===== */
 :root {
-  --background: #fdf8f0;
-  --foreground: #40342a;
-  --card: #ffffff;
-  --card-border: #f1e4cf;
+  --background: #fff8ec;
+  --bg-1: #ffe9c2;
+  --bg-2: #fff0d9;
+  --bg-3: #ffe3b8;
+  --foreground: #4a3a22;
+  --foreground-soft: #8a765a;
+  --card: #fff;
+  --card-border: rgba(212, 146, 42, 0.18);
   --accent: #d4922a;
   --accent-soft: #fdecc8;
   --accent-strong: #b8741e;
+  --glass-bg: rgba(255, 255, 255, 0.62);
+  --glass-border: rgba(255, 255, 255, 0.75);
+  --shadow-sm: 0 6px 16px rgba(212, 146, 42, 0.13);
+  --shadow: 0 14px 34px rgba(212, 146, 42, 0.16);
+  --radius: 26px;
+
+  --paw: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='34'%20height='34'%20viewBox='0%200%2040%2040'%3E%3Cg%20fill='%23d4922a'%20stroke='%23ffffff'%20stroke-width='1.4'%3E%3Cg%20transform='translate(0,1)%20scale(0.5)'%3E%3Cellipse%20cx='16'%20cy='21'%20rx='8'%20ry='7'/%3E%3Cellipse%20cx='7'%20cy='13'%20rx='3.4'%20ry='3.8'/%3E%3Cellipse%20cx='13'%20cy='7.5'%20rx='3.4'%20ry='4'/%3E%3Cellipse%20cx='19'%20cy='7.5'%20rx='3.4'%20ry='4'/%3E%3Cellipse%20cx='25'%20cy='13'%20rx='3.4'%20ry='3.8'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+    6 8, auto;
 }
 
 @theme inline {
@@ -18,44 +33,120 @@
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
   --color-accent-strong: var(--accent-strong);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-baloo), var(--font-quicksand), sans-serif;
+  --font-body: var(--font-quicksand), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #201a12;
-    --foreground: #f3e9d8;
-    --card: #2a2118;
-    --card-border: #3c3020;
+    --background: #221a10;
+    --bg-1: #3a2c14;
+    --bg-2: #2c2214;
+    --bg-3: #40300f;
+    --foreground: #f6e9d0;
+    --foreground-soft: #cbb693;
+    --card: #2c2216;
+    --card-border: rgba(230, 175, 90, 0.18);
     --accent: #e3a94a;
     --accent-soft: #3c3020;
     --accent-strong: #f0bd6c;
+    --glass-bg: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.12);
   }
+}
+
+* {
+  cursor: var(--paw);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-quicksand), Arial, Helvetica, sans-serif;
+  position: relative;
+  min-height: 100%;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.9;
+  background: radial-gradient(55vw 40vw at 10% 0%, var(--bg-1), transparent 60%),
+    radial-gradient(50vw 45vw at 90% 5%, var(--bg-2), transparent 58%),
+    radial-gradient(60vw 55vw at 50% 100%, var(--bg-3), transparent 60%);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-baloo), var(--font-quicksand), sans-serif;
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid var(--glass-border);
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: dotpulse 1.7s ease-in-out infinite;
+}
+
+@keyframes dotpulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.bob {
+  display: inline-block;
+  animation: bob 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot,
+  .bob {
+    animation: none;
+  }
 }
 
 .viz-root {
   color-scheme: light;
-  --viz-surface: #fcfcfb;
-  --viz-text-secondary: #52514e;
-  --viz-muted: #898781;
-  --viz-gridline: #e1e0d9;
+  --viz-surface: #fffdf8;
+  --viz-text-secondary: #8a765a;
+  --viz-muted: #a9977c;
+  --viz-gridline: #f1e2c4;
   --viz-series-1: #2a78d6;
 }
 
 @media (prefers-color-scheme: dark) {
   .viz-root {
     color-scheme: dark;
-    --viz-surface: #1a1a19;
-    --viz-text-secondary: #c3c2b7;
-    --viz-muted: #898781;
-    --viz-gridline: #2c2c2a;
+    --viz-surface: #2c2216;
+    --viz-text-secondary: #cbb693;
+    --viz-muted: #a9977c;
+    --viz-gridline: #40300f;
     --viz-series-1: #3987e5;
   }
 }

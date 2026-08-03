@@ -6,6 +6,7 @@ import {
   listAssetSources,
   totalPortfolio,
 } from "@/lib/portfolio/queries";
+import { fetchGoldReferenceAverage } from "@/lib/portfolio/referencePrice";
 import { AssetSourceForm } from "@/components/portfolio/AssetSourceForm";
 import { TransactionForm } from "@/components/portfolio/TransactionForm";
 import { TotalsSummary } from "@/components/portfolio/TotalsSummary";
@@ -24,9 +25,9 @@ function Card({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-3xl border border-card-border bg-card p-4 shadow-sm sm:p-5">
-      <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground/70">
-        <span>{emoji}</span>
+    <section className="glass rounded-3xl border border-card-border p-4 shadow-sm sm:p-5">
+      <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground-soft">
+        <span className="bob">{emoji}</span>
         {title}
       </h2>
       {children}
@@ -42,22 +43,30 @@ export default async function Home() {
     redirect("/login");
   }
 
-  const [assetSources, summary, valueHistory] = await Promise.all([
+  const [assetSources, summary, valueHistory, goldReference] = await Promise.all([
     listAssetSources(),
     getPortfolioSummary(),
     getPortfolioValueHistory(),
+    fetchGoldReferenceAverage(),
   ]);
   const totals = totalPortfolio(summary);
 
   return (
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-4 p-4 sm:p-6">
       <div className="flex items-center justify-between">
-        <h1 className="flex items-center gap-2 text-xl font-bold text-foreground">
-          <span>🪙</span> Danh mục đầu tư
+        <h1 className="flex items-center gap-2 text-2xl font-bold text-foreground">
+          <span className="bob">🐱</span>
+          <span className="bob" style={{ animationDelay: "-1.5s" }}>
+            🪙
+          </span>
+          Danh mục đầu tư
         </h1>
         <form action={logout}>
-          <button type="submit" className="text-sm text-foreground/50 underline">
-            Đăng xuất
+          <button
+            type="submit"
+            className="rounded-full bg-card px-3 py-1.5 text-sm text-foreground-soft shadow-sm"
+          >
+            Đăng xuất 👋
           </button>
         </form>
       </div>
@@ -69,7 +78,7 @@ export default async function Home() {
       </Card>
 
       <Card title="Tài sản đang theo dõi" emoji="✨">
-        <HoldingsList summary={summary} />
+        <HoldingsList summary={summary} goldReference={goldReference} />
       </Card>
 
       <Card title="Thêm tài sản mới" emoji="➕">

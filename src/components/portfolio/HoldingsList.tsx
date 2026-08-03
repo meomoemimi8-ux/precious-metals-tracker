@@ -1,6 +1,7 @@
 import { formatLuong, formatVnd } from "@/lib/format";
 import { isPriceStale } from "@/lib/portfolio/queries";
 import type { AssetSourceSummary } from "@/lib/portfolio/types";
+import type { GoldReferencePrice } from "@/lib/portfolio/referencePrice";
 import { ManualPriceForm } from "./ManualPriceForm";
 
 const PRICE_SOURCE_LABEL: Record<AssetSourceSummary["price_source"], string> = {
@@ -14,7 +15,13 @@ const METAL_EMOJI: Record<AssetSourceSummary["metal_type"], string> = {
   silver: "🥈",
 };
 
-export function HoldingsList({ summary }: { summary: AssetSourceSummary[] }) {
+export function HoldingsList({
+  summary,
+  goldReference,
+}: {
+  summary: AssetSourceSummary[];
+  goldReference?: GoldReferencePrice | null;
+}) {
   if (summary.length === 0) {
     return (
       <p className="text-sm text-foreground/50">
@@ -27,16 +34,18 @@ export function HoldingsList({ summary }: { summary: AssetSourceSummary[] }) {
     <div className="flex flex-col gap-3">
       {summary.map((s) => {
         const stale = isPriceStale(s);
+        const isManual = s.price_source === "manual";
         return (
           <div
             key={s.asset_source_id}
-            className="rounded-2xl border border-card-border bg-background/60 p-3"
+            className="glass rounded-2xl border border-card-border p-3"
           >
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h3 className="flex items-center gap-1.5 font-semibold text-foreground">
                 <span>{METAL_EMOJI[s.metal_type]}</span> {s.name}
               </h3>
-              <span className="rounded-full bg-accent-soft px-2 py-0.5 text-xs text-accent-strong">
+              <span className="flex items-center gap-1 rounded-full bg-accent-soft px-2 py-0.5 text-xs text-accent-strong">
+                {!isManual && <span className="live-dot" />}
                 {PRICE_SOURCE_LABEL[s.price_source]}
               </span>
             </div>
@@ -65,13 +74,19 @@ export function HoldingsList({ summary }: { summary: AssetSourceSummary[] }) {
               </div>
             </div>
 
-            {stale && (
+            {isManual && (
+              <div className="mt-2 rounded-xl border border-card-border bg-background/70 p-2.5">
+                <ManualPriceForm summary={s} goldReference={goldReference} />
+              </div>
+            )}
+
+            {!isManual && stale && (
               <div className="mt-2 rounded-xl border border-accent/30 bg-accent-soft p-2.5">
                 <p className="text-xs text-accent-strong">
-                  ⏰ Giá chưa được cập nhật trong 7 ngày qua.
+                  ⏰ Giá tự động chưa cập nhật trong 7 ngày qua — có thể tự sửa tay:
                 </p>
                 <div className="mt-1.5">
-                  <ManualPriceForm summary={s} />
+                  <ManualPriceForm summary={s} goldReference={goldReference} />
                 </div>
               </div>
             )}

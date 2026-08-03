@@ -2,10 +2,9 @@
 
 import { useActionState } from "react";
 import { createAssetSource, type ActionState } from "@/lib/portfolio/actions";
+import { INPUT_CLASS as inputClass, PILL_BUTTON_CLASS } from "@/lib/ui";
 
 const initialState: ActionState = undefined;
-const inputClass =
-  "rounded-xl border border-card-border bg-background px-3 py-2 text-sm outline-none focus:border-accent";
 
 export function AssetSourceForm() {
   const [state, action, pending] = useActionState(createAssetSource, initialState);
@@ -37,12 +36,8 @@ export function AssetSourceForm() {
           <option value="auto:phuquy">Tự động (Phú Quý Silver)</option>
         </select>
       </div>
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-strong disabled:opacity-50"
-      >
-        {pending ? "Đang lưu..." : "Thêm tài sản"}
+      <button type="submit" disabled={pending} className={PILL_BUTTON_CLASS}>
+        {pending ? "Đang lưu..." : "➕ Thêm tài sản"}
       </button>
       {state?.error && <p className="w-full text-sm text-red-600">{state.error}</p>}
     </form>

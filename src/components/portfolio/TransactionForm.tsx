@@ -7,10 +7,9 @@ import {
   type ActionState,
 } from "@/lib/portfolio/actions";
 import type { AssetSource } from "@/lib/portfolio/types";
+import { INPUT_CLASS as inputClass, PILL_BUTTON_CLASS } from "@/lib/ui";
 
 const initialState: ActionState = undefined;
-const inputClass =
-  "rounded-xl border border-card-border bg-background px-3 py-2 text-sm outline-none focus:border-accent";
 
 export function TransactionForm({ assetSources }: { assetSources: AssetSource[] }) {
   const [type, setType] = useState<"buy" | "sell">("buy");
@@ -29,12 +28,14 @@ export function TransactionForm({ assetSources }: { assetSources: AssetSource[] 
     <form action={action} className="flex flex-wrap items-end gap-2">
       <div className="flex flex-col gap-1">
         <span className="text-xs text-foreground/50">Loại giao dịch</span>
-        <div className="flex overflow-hidden rounded-xl border border-card-border text-sm">
+        <div className="flex overflow-hidden rounded-full border border-card-border text-sm">
           <button
             type="button"
             onClick={() => setType("buy")}
             className={`px-3 py-2 transition ${
-              type === "buy" ? "bg-accent text-white" : "bg-background text-foreground/70"
+              type === "buy"
+                ? "bg-gradient-to-br from-accent to-accent-strong text-white"
+                : "bg-background text-foreground-soft"
             }`}
           >
             📥 Mua
@@ -43,7 +44,9 @@ export function TransactionForm({ assetSources }: { assetSources: AssetSource[] 
             type="button"
             onClick={() => setType("sell")}
             className={`px-3 py-2 transition ${
-              type === "sell" ? "bg-accent text-white" : "bg-background text-foreground/70"
+              type === "sell"
+                ? "bg-gradient-to-br from-accent to-accent-strong text-white"
+                : "bg-background text-foreground-soft"
             }`}
           >
             📤 Bán
@@ -119,11 +122,7 @@ export function TransactionForm({ assetSources }: { assetSources: AssetSource[] 
         <input id="note" name="note" className={inputClass} />
       </div>
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-strong disabled:opacity-50"
-      >
+      <button type="submit" disabled={pending} className={PILL_BUTTON_CLASS}>
         {pending ? "Đang lưu..." : type === "buy" ? "Ghi nhận mua" : "Ghi nhận bán"}
       </button>
 

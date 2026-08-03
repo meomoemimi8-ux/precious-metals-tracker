@@ -14,9 +14,9 @@ export function TotalsSummary({ totals }: { totals: PortfolioTotals }) {
       {items.map((item) => (
         <div
           key={item.label}
-          className="rounded-3xl border border-card-border bg-card p-4 shadow-sm"
+          className="glass rounded-3xl border border-card-border p-4 shadow-sm"
         >
-          <p className="text-xs text-foreground/50">
+          <p className="text-xs text-foreground-soft">
             {item.emoji} {item.label}
           </p>
           <p
