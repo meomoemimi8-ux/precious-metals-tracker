@@ -98,6 +98,7 @@ export function TransactionForm({ assetSources }: { assetSources: AssetSource[] 
           className="rounded border border-neutral-300 px-2 py-1 text-sm"
         >
           <option value="luong">lượng</option>
+          <option value="chi">chỉ</option>
           <option value="kg">kg</option>
         </select>
       </div>

@@ -15,7 +15,7 @@ async function requireUser() {
 }
 
 function parseQuantityUnit(value: FormDataEntryValue | null): QuantityUnit {
-  if (value === "kg" || value === "luong") return value;
+  if (value === "kg" || value === "luong" || value === "chi") return value;
   throw new Error("Đơn vị không hợp lệ.");
 }
 
